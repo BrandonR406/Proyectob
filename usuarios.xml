@@ -1,0 +1,14 @@
+<usuarios>
+<usuario>
+<nombre>admin</nombre>
+<nombreusuario>admin</nombreusuario>
+<rol>1</rol>
+<password>Admin/1</password>
+</usuario>
+<usuario>
+<nombre>Brandon</nombre>
+<nombreusuario>Bhernandez</nombreusuario>
+<rol>2</rol>
+<password>Hernandez/1</password>
+</usuario>
+</usuarios>
