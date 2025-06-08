@@ -141,7 +141,8 @@ public class NuevaDirecciones extends javax.swing.JFrame {
         DV.setDireccion(jTextField3.getText());
         DV.setZona(jTextField4.getText());
         
-        Usuarios.Direcciones.add(DV);
+        MiPerfil.Direcciones.add(DV);
+        ArchivoDirecciones.guardarDireccion(MiPerfil.Direcciones);
         JOptionPane.showMessageDialog(this, "Direccion agregada");
     }//GEN-LAST:event_jButton1ActionPerformed
 

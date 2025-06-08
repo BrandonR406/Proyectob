@@ -1,7 +1,9 @@
 package com.mycompany.proyectob;
 
+import java.io.Serializable;
 
-public class DireccionesVendedor {
+
+public class DireccionesVendedor implements Serializable{
     private String Calle;
     private String Avenida;
     private String Direccion;

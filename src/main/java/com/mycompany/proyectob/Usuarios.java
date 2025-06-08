@@ -10,9 +10,8 @@ public class Usuarios implements Serializable{
     private int rol;
     private String password;
     
-    public static ArrayList<RegistrarVenta> Venta= 
-            ArchivoVenta.CargarVenta();
-    public static ArrayList<DireccionesVendedor> Direcciones= new ArrayList<>();
+    public static ArrayList<RegistrarVenta> Venta= ArchivoVenta.CargarVenta();
+    
     /**
      * @return the nombre
      */

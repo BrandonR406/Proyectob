@@ -5,6 +5,7 @@
 package com.mycompany.proyectob;
 
 import static com.mycompany.proyectob.Proyectob.Libro;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,6 +13,8 @@ import javax.swing.JOptionPane;
  * @author brandon
  */
 public class NuevoLibro extends javax.swing.JFrame {
+    
+    public static ArrayList<Libro> Librojson = ArchivoLibro.CargarJson();
 
     /**
      * Creates new form NuevoLibro
@@ -148,6 +151,8 @@ public class NuevoLibro extends javax.swing.JFrame {
         l.setStock(Integer.parseInt(jTextField5.getText()));
         
         Proyectob.Libro.add(l);
+        Librojson.add(l);
+        ArchivoLibro.GuardarJson(Librojson);
         ArchivoLibro.guardarLibro(Libro);
         JOptionPane.showMessageDialog(this, "Libro Agregado con exito");
     }//GEN-LAST:event_jButton1ActionPerformed

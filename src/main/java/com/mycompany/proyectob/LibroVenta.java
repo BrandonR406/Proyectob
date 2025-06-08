@@ -7,6 +7,7 @@ public class LibroVenta implements Serializable{
     private double Precio;
     private int Cantidad;
     private double Subtotal;
+    private String Fecha;
 
     /**
      * @return the Titulo
@@ -62,6 +63,20 @@ public class LibroVenta implements Serializable{
      */
     public void setSubtotal(double Subtotal) {
         this.Subtotal = Subtotal;
+    }
+
+    /**
+     * @return the Fecha
+     */
+    public String getFecha() {
+        return Fecha;
+    }
+
+    /**
+     * @param Fecha the Fecha to set
+     */
+    public void setFecha(String Fecha) {
+        this.Fecha = Fecha;
     }
     
 }

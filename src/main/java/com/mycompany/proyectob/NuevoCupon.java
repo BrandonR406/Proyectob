@@ -24,113 +24,21 @@ import javax.swing.table.TableModel;
  * @author brandon
  */
 public class NuevoCupon extends javax.swing.JFrame {
-    public static LinkedList<Cupones> Cuponcsv = new LinkedList<>();
+
+    public static ArrayList<Cupones> Cuponcsv = ArchivoCupones.CargarArchivo();
 
     /**
      * Creates new form NuevoCupon
      */
     public NuevoCupon() {
         initComponents();
-        
+
         jComboBox1.removeAllItems();
         jComboBox1.addItem("Porcentaje");
         jComboBox1.addItem("Monto fijo");
-        
-        
-    }
-    
 
-        public void CargarArchivo(File Archivo){
-        FileReader fr= null;
-        BufferedReader br = null;
-        
-        try {
-            fr = new FileReader(Archivo);
-            br = new BufferedReader(fr);
-            
-            String Linea;
-            while((Linea=br.readLine()) != null){
-                
-                String cupones []= Linea.split("\\|");
-                if(cupones.length >= 4){
-                    Cupones C=new Cupones();
-                    C.setCodigo(cupones[0]);
-                    C.setDescuento(Double.parseDouble(cupones[1]));
-                    C.setTipo(cupones[2]);
-                    C.setVencimiento(cupones[3]);
-                    Cuponcsv.add(C);
-                }
-            }
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e);
-        }
-        
-        finally{
-            try {
-                if(fr!=null){
-                    fr.close();
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, e);
-            }
-        }
     }
-        
-        
-        public static void GuardarArchivo(String archivo){
-            FileWriter fw = null;
-            PrintWriter pw = null;
-            
-            try {
-                fw = new FileWriter(archivo);
-                pw = new PrintWriter(fw);
-                for(Cupones c: Cuponcsv){
-                    String Linea = c.getCodigo()+"|"+c.getDescuento()+"|"+c.getTipo()+"|"+c.getVencimiento()+"|";
-                    pw.println(Linea);
-                    
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            finally{
-                try {
-                    if(fw!=null){
-                        fw.close();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        } 
-  /*  public static void guardarCSV(ArrayList<Cupones> lista, String Archivo){
-        try(PrintWriter pw = new PrintWriter(new FileWriter(Archivo))){
-            for(Cupones C : lista){
-                pw.println(C.getCodigo()+"|"+C.getDescuento()+"|"+C.getTipo()+"|"+C.getVencimiento());
-            }
-        } catch(IOException e){
-            JOptionPane.showMessageDialog(null, e);
-        }
-    }
-    
-    public void cargarCSV(File Archivo){
-        DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
-        model.addColumn("Codigo");
-        model.addColumn("Descuento");
-        model.addColumn("Tipo");
-        model.addColumn("Vencimiento");
-        
-        try(BufferedReader br = new BufferedReader(new FileReader(Archivo))){
-            String Linea;
-            while((Linea = br.readLine()) != null){
-                String [] datos = Linea.split("\\|");
-                model.addRow(datos);
-             
-            }
-        } catch(IOException e){
-            JOptionPane.showMessageDialog(this, e);
-        }
-    } */
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -239,20 +147,21 @@ public class NuevoCupon extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Cupones C=new Cupones();
+        Cupones C = new Cupones();
         C.setCodigo(jTextField1.getText());
         C.setDescuento(Double.parseDouble(jTextField2.getText()));
-        String descuento=jComboBox1.getSelectedItem().toString();
-        if(descuento.equals("Porcentaje")){
+        String descuento = jComboBox1.getSelectedItem().toString();
+        if (descuento.equals("Porcentaje")) {
             C.setTipo(descuento);
-        } else if(descuento.equals("Monto fijo")){
+        } else if (descuento.equals("Monto fijo")) {
             C.setTipo(descuento);
         }
-        
+
         C.setVencimiento(jTextField3.getText());
-        
+
         Proyectob.cupones.add(C);
-        GuardarArchivo("/home/brandon/Escritorio/Archivos de Cupones/Cupones.csv");
+        Cuponcsv.add(C);
+        ArchivoCupones.GuardarArchivo(cupones);
         ArchivoCupones.guardarCupon(cupones);
         //pintarTabla();
         JOptionPane.showMessageDialog(this, "Cupon agregado con exito");

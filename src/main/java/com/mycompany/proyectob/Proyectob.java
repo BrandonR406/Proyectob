@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Proyectob implements Serializable{
 
     /**
-     *
+     *´´´´´´´´´´´´´´´´´´´´
      */
     public static ArrayList<Usuarios> usuarios = //NuevoUsuario.usuarioxml;
            ArchivoUsuario.CargarUsuarios();
@@ -18,7 +18,7 @@ public class Proyectob implements Serializable{
     
     public static void main(String[] args) {
        
-        Usuarios u=new Usuarios();
+        /*Usuarios u=new Usuarios();
         u.setNombre("Administrador");
         u.setUsuario("admin");
         u.setRol(1);
@@ -31,7 +31,7 @@ public class Proyectob implements Serializable{
         l.setRol(2);
         l.setPassword("Brandon/1");
         
-        usuarios.add(l);
+        usuarios.add(l);*/
         
         /* Libro L=new Libro();
         L.setTitulo("El Alquimista");

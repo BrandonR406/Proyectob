@@ -14,7 +14,8 @@ public class RegistrarVenta implements Serializable{
     private String Fecha;
     
     public static ArrayList<LibroVenta> LibroV = new ArrayList<>();
-    public static ArrayList<LibroVenta> LibroVendido = ArchivoLibroVenta.CargarCupon();
+    public static ArrayList<LibroVenta> Reporte = ArchivoLibroVenta.CargarReporte();
+    public static ArrayList<LibroVenta> LibroVendido = ArchivoLibroVenta.CargarLibroVenta();
 
     
     /**

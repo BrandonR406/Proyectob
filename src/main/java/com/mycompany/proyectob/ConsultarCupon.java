@@ -1,7 +1,6 @@
 package com.mycompany.proyectob;
 
 import static com.mycompany.proyectob.NuevoCupon.Cuponcsv;
-import static com.mycompany.proyectob.NuevoCupon.GuardarArchivo;
 import static com.mycompany.proyectob.Proyectob.cupones;
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,7 +17,7 @@ import javax.swing.table.TableModel;
  * @author brandon
  */
 public class ConsultarCupon extends javax.swing.JFrame {
-    
+
     private Cupones cupon;
 
     /**
@@ -27,79 +26,39 @@ public class ConsultarCupon extends javax.swing.JFrame {
     public ConsultarCupon() {
         initComponents();
         ArchivoCupones.CargarCupon();
-        //pintarTabla();
-        
+        pintarTabla();
+
         jComboBox1.removeAllItems();
         jComboBox1.addItem("Porcentaje");
         jComboBox1.addItem("Monto fijo");
     }
-    
-    private void pintarTabla(){
-        DefaultTableModel t=new DefaultTableModel(new String[]{"Codigo","Descuento","Tipo","Vencimiento"},Proyectob.cupones.size());
+
+    private void pintarTabla() {
+        DefaultTableModel t = new DefaultTableModel(new String[]{"Codigo", "Descuento", "Tipo", "Vencimiento"}, Proyectob.cupones.size());
         jTable1.setModel(t);
-        TableModel tabla=jTable1.getModel();
-        for(int i=0;i<Proyectob.cupones.size();i++){
-            Cupones C=Proyectob.cupones.get(i);
+        TableModel tabla = jTable1.getModel();
+        for (int i = 0; i < Proyectob.cupones.size(); i++) {
+            Cupones C = Proyectob.cupones.get(i);
             tabla.setValueAt(C.getCodigo(), i, 0);
             tabla.setValueAt(C.getDescuento(), i, 1);
             tabla.setValueAt(C.getTipo(), i, 2);
             tabla.setValueAt(C.getVencimiento(), i, 3);
         }
     }
-    
-    
-    private void Tablacsv(){
-        DefaultTableModel t=new DefaultTableModel(new String[]{"Codigo","Descuento","Tipo","Vencimiento"},NuevoCupon.Cuponcsv.size());
+
+    private void Tablacsv() {
+        DefaultTableModel t = new DefaultTableModel(new String[]{"Codigo", "Descuento", "Tipo", "Vencimiento"}, NuevoCupon.Cuponcsv.size());
         jTable1.setModel(t);
-        TableModel tabla=jTable1.getModel();
-        for(int i=0;i<NuevoCupon.Cuponcsv.size();i++){
-            Cupones C=NuevoCupon.Cuponcsv.get(i);
+        TableModel tabla = jTable1.getModel();
+        for (int i = 0; i < NuevoCupon.Cuponcsv.size(); i++) {
+            Cupones C = NuevoCupon.Cuponcsv.get(i);
             tabla.setValueAt(C.getCodigo(), i, 0);
             tabla.setValueAt(C.getDescuento(), i, 1);
             tabla.setValueAt(C.getTipo(), i, 2);
             tabla.setValueAt(C.getVencimiento(), i, 3);
         }
-    }    
-    
-    
-        public void CargarArchivo(File Archivo){
-        FileReader fr= null;
-        BufferedReader br = null;
-        
-        try {
-            fr = new FileReader(Archivo);
-            br = new BufferedReader(fr);
-            
-            String Linea;
-            while((Linea=br.readLine()) != null){
-                
-                String cupones []= Linea.split("\\|");
-                if(cupones.length >= 4){
-                    Cupones C=new Cupones();
-                    C.setCodigo(cupones[0]);
-                    C.setDescuento(Double.parseDouble(cupones[1]));
-                    C.setTipo(cupones[2]);
-                    C.setVencimiento(cupones[3]);
-                    Cuponcsv.add(C);
-                }
-            }
-            Tablacsv();
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e);
-        }
-        
-        finally{
-            try {
-                if(fr!=null){
-                    fr.close();
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, e);
-            }
-        }
-    }    
-    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -278,64 +237,62 @@ public class ConsultarCupon extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        int borrar=jTable1.getSelectedRow();
-        if(borrar>-1){
-            if(JOptionPane.showConfirmDialog(this, "Esta seguro que quiere eliminar este elemnto")==0){
+        int borrar = jTable1.getSelectedRow();
+        if (borrar > -1) {
+            if (JOptionPane.showConfirmDialog(this, "Esta seguro que quiere eliminar este elemnto") == 0) {
                 Proyectob.cupones.remove(borrar);
                 ArchivoCupones.guardarCupon(cupones);
-                NuevoCupon.GuardarArchivo("/home/brandon/Escritorio/Archivos de Cupones/Cupones.csv");
+                ArchivoCupones.GuardarArchivo(cupones);
                 pintarTabla();
                 JOptionPane.showMessageDialog(this, "Cupon eliminado con exito");
-            } else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Seleccione un elemento");
             }
         }
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        int modificar=jTable1.getSelectedRow();
-        if(modificar>-1){
-            cupon=Proyectob.cupones.get(modificar);
+        int modificar = jTable1.getSelectedRow();
+        if (modificar > -1) {
+            cupon = Proyectob.cupones.get(modificar);
             jTextField1.setText(cupon.getCodigo());
             jTextField2.setText(String.valueOf(cupon.getDescuento()));
             jComboBox1.setSelectedItem(cupon.getTipo());
             jTextField4.setText(cupon.getVencimiento());
-        } else{
+        } else {
             JOptionPane.showMessageDialog(this, "Seleccione un elemento");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        
-        if(cupon!=null){
+
+        if (cupon != null) {
             cupon.setCodigo(jTextField1.getText());
             cupon.setDescuento(Double.parseDouble(jTextField2.getText()));
-            String tipo=jComboBox1.getSelectedItem().toString();
-            if(tipo.equals("Porcentaje")){
+            String tipo = jComboBox1.getSelectedItem().toString();
+            if (tipo.equals("Porcentaje")) {
                 cupon.setTipo(tipo);
-            } else if(tipo.equals("Monto fijo")){
+            } else if (tipo.equals("Monto fijo")) {
                 cupon.setTipo(tipo);
             }
             cupon.setVencimiento(jTextField4.getText());
-            
+
             ArchivoCupones.guardarCupon(cupones);
-            
-            NuevoCupon.GuardarArchivo("/home/brandon/Escritorio/Archivos de Cupones/Cupones.csv");
-            
+            ArchivoCupones.GuardarArchivo(cupones);
             JOptionPane.showMessageDialog(this, "Cupon modificado con exito");
             pintarTabla();
-        } else{
+        } else {
             JOptionPane.showMessageDialog(this, "Valores incompletos");
         }
-        
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        JFileChooser ArchivoS= new JFileChooser();
+        /* JFileChooser ArchivoS= new JFileChooser();
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivo csv","csv");
         
         ArchivoS.setFileFilter(filtro);
@@ -346,7 +303,7 @@ public class ConsultarCupon extends javax.swing.JFrame {
             File archivo = ArchivoS.getSelectedFile();
 
             CargarArchivo(archivo);
-        }         
+        }     */
     }//GEN-LAST:event_jButton5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

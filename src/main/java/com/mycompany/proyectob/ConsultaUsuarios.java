@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.proyectob;
+
 import static com.mycompany.proyectob.Proyectob.usuarios;
 import java.io.File;
 import javax.swing.JFileChooser;
@@ -24,90 +25,49 @@ import java.io.File;
  * @author brandon
  */
 public class ConsultaUsuarios extends javax.swing.JFrame {
-    
+
     private Usuarios usuario;
+
     /**
      * Creates new form ConsultaUsuarios
      */
     public ConsultaUsuarios() {
         initComponents();
-        Proyectob.usuarios=ArchivoUsuario.CargarUsuarios();
-        //pintarTabla();
-        
+        Proyectob.usuarios = ArchivoUsuario.CargarUsuarios();
+        pintarTabla();
+
         jComboBox1.removeAllItems();
         jComboBox1.addItem("Administrador");
         jComboBox1.addItem("Vendedor");
-                
+
     }
-    
-    private void pintarTabla(){
-        
-    
-        DefaultTableModel t=new DefaultTableModel(new String []{"Nombre","Usuario","Rol","Password"},Proyectob.usuarios.size());
+
+    private void pintarTabla() {
+
+        DefaultTableModel t = new DefaultTableModel(new String[]{"Nombre", "Usuario", "Rol", "Password"}, Proyectob.usuarios.size());
         jTable1.setModel(t);
         TableModel tabla = jTable1.getModel();
-        for(int i=0;i<Proyectob.usuarios.size();i++){
-            Usuarios u= Proyectob.usuarios.get(i);
-            tabla.setValueAt(u.getNombre(), i,0);
-            tabla.setValueAt(u.getUsuario(), i,1);
-            tabla.setValueAt(u.getRol(), i,2);
-            tabla.setValueAt(u.getPassword(), i,3);
+        for (int i = 0; i < Proyectob.usuarios.size(); i++) {
+            Usuarios u = Proyectob.usuarios.get(i);
+            tabla.setValueAt(u.getNombre(), i, 0);
+            tabla.setValueAt(u.getUsuario(), i, 1);
+            tabla.setValueAt(u.getRol(), i, 2);
+            tabla.setValueAt(u.getPassword(), i, 3);
         }
-}
-    
-    private void TablaXML(){
-        
-    
-        DefaultTableModel t=new DefaultTableModel(new String []{"Nombre","Usuario","Rol","Password"},NuevoUsuario.usuarioxml.size());
+    }
+
+    private void TablaXML() {
+
+        DefaultTableModel t = new DefaultTableModel(new String[]{"Nombre", "Usuario", "Rol", "Password"}, NuevoUsuario.usuarioxml.size());
         jTable1.setModel(t);
         TableModel tabla = jTable1.getModel();
-        for(int i=0;i<NuevoUsuario.usuarioxml.size();i++){
-            Usuarios u= NuevoUsuario.usuarioxml.get(i);
-            tabla.setValueAt(u.getNombre(), i,0);
-            tabla.setValueAt(u.getUsuario(), i,1);
-            tabla.setValueAt(u.getRol(), i,2);
-            tabla.setValueAt(u.getPassword(), i,3);
+        for (int i = 0; i < NuevoUsuario.usuarioxml.size(); i++) {
+            Usuarios u = NuevoUsuario.usuarioxml.get(i);
+            tabla.setValueAt(u.getNombre(), i, 0);
+            tabla.setValueAt(u.getUsuario(), i, 1);
+            tabla.setValueAt(u.getRol(), i, 2);
+            tabla.setValueAt(u.getPassword(), i, 3);
         }
-}    
-    
-    
-    public void leerxml(File Archivo){
-        
-        try {
-           
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dbBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dbBuilder.parse(Archivo);
-            
-            doc.getDocumentElement().normalize();
-            
-            NodeList nList= doc.getElementsByTagName("usuario");
-            
-            for(int i = 0; i<nList.getLength(); i++){
-                
-                Node nNode= nList.item(i);
-                
-                if(nNode.getNodeType() == Node.ELEMENT_NODE){
-                    
-                    Element e = (Element) nNode;
-                    Usuarios u = new Usuarios();
-                    u.setNombre(e.getElementsByTagName("nombre").item(0).getTextContent());
-                    u.setUsuario(e.getElementsByTagName("nombreusuario").item(0).getTextContent());
-                    u.setRol(Integer.parseInt(e.getElementsByTagName("rol").item(0).getTextContent()));
-                    u.setPassword(e.getElementsByTagName("password").item(0).getTextContent());
-                    
-                    NuevoUsuario.usuarioxml.add(u);
-                    
-                }
-                
-            }
-            
-            TablaXML();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
     }
 
     /**
@@ -274,127 +234,124 @@ public class ConsultaUsuarios extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         //JOptionPane.showMessageDialog(this, "FILA" +jTable1.getSelectedRow());
-        
+
         int borrar = jTable1.getSelectedRow();
-        if(borrar>-1){
-            if(borrar == 0){
+        if (borrar > -1) {
+            if (borrar == 0) {
                 JOptionPane.showMessageDialog(this, "No puede eliminar al administrador");
-            }
-            else{
-            
-                if(JOptionPane.showConfirmDialog(this, "Esta seguro de eliminar al usuario")==0){
+            } else {
+
+                if (JOptionPane.showConfirmDialog(this, "Esta seguro de eliminar al usuario") == 0) {
                     Proyectob.usuarios.remove(borrar);
                     ArchivoUsuario.guardarUsuarios(usuarios);
+                    ArchivoUsuario.GuardarXML(usuarios);
                     pintarTabla();
                     JOptionPane.showMessageDialog(this, "Usuario eliminado");
                 }
             }
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(this, "Seleccione un elemento a borrar");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        
+
         int modificar = jTable1.getSelectedRow();
-        if(modificar > -1){
-            
+        if (modificar > -1) {
+
             usuario = Proyectob.usuarios.get(modificar);
             jTextField1.setText(usuario.getNombre());
             jTextField2.setText(usuario.getUsuario());
             jTextField3.setText(usuario.getPassword());
-            jComboBox1.setSelectedIndex(usuario.getRol()-1);
-        
-        }
-        else{
+            jComboBox1.setSelectedIndex(usuario.getRol() - 1);
+
+        } else {
             JOptionPane.showMessageDialog(this, "Seleccione un elemento a modificar");
         }
-        
-        
+
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        if(usuario!=null){
-            
+        if (usuario != null) {
+
             usuario.setNombre(jTextField1.getText());
             usuario.setUsuario(jTextField2.getText());
 
-        String rol=jComboBox1.getSelectedItem().toString();
-        if(rol.equals("Administrador")){
-            usuario.setRol(1);
-        } else {
-            usuario.setRol(2);
-        }
-        
-        //u.rol = Integer.parseInt(jTextField3.getText());
-        //u.password = jTextField4.getText();
-        
-        String password=jTextField3.getText();
-        
-        boolean tam= false;
-        boolean may= false;
-        boolean min= false;
-        boolean num= false;
-        boolean especial= false;
-        if(password.length()>=6){
-            tam=true;
-        }
-        for(char c: password.toCharArray()){
-            if(Character.isUpperCase(c)){
-                may=true;
-            } else if(Character.isLowerCase(c)){
-                min=true;
-            } else if(Character.isDigit(c)){
-                num=true;
+            String rol = jComboBox1.getSelectedItem().toString();
+            if (rol.equals("Administrador")) {
+                usuario.setRol(1);
             } else {
-                especial=true;
+                usuario.setRol(2);
             }
-        }
-        
-        
-        if(tam ==true && may==true && min==true && num==true && especial==true){
-            usuario.setPassword(password);
-            ArchivoUsuario.guardarUsuarios(usuarios);
-            JOptionPane.showMessageDialog(this, "Usuario Modificado Exitosamente.");
-            jTextField1.setText("");
-            jTextField2.setText("");
-            jTextField3.setText("");
-        } else{
-            JOptionPane.showMessageDialog(this, """
+
+            //u.rol = Integer.parseInt(jTextField3.getText());
+            //u.password = jTextField4.getText();
+            String password = jTextField3.getText();
+
+            boolean tam = false;
+            boolean may = false;
+            boolean min = false;
+            boolean num = false;
+            boolean especial = false;
+            if (password.length() >= 6) {
+                tam = true;
+            }
+            for (char c : password.toCharArray()) {
+                if (Character.isUpperCase(c)) {
+                    may = true;
+                } else if (Character.isLowerCase(c)) {
+                    min = true;
+                } else if (Character.isDigit(c)) {
+                    num = true;
+                } else {
+                    especial = true;
+                }
+            }
+
+            if (tam == true && may == true && min == true && num == true && especial == true) {
+                usuario.setPassword(password);
+                ArchivoUsuario.guardarUsuarios(usuarios);
+                ArchivoUsuario.GuardarXML(usuarios);
+                JOptionPane.showMessageDialog(this, "Usuario Modificado Exitosamente.");
+                jTextField1.setText("");
+                jTextField2.setText("");
+                jTextField3.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, """
                                                 Contrase\u00f1a inv\u00e1lida. Debe contener:
                                                 - minimo 6 caracteres
                                                 - Al menos una letra may\u00fascula
                                                 - Al menos una letra min\u00fascula
                                                 - Al menos un n\u00famero
                                                 - Al menos un car\u00e1cter especial (@#$%^&+=!)""");
-        }
-            
+            }
+
             pintarTabla();
-        } else{
+        } else {
             JOptionPane.showMessageDialog(this, "Valores incompletos");
         }
-                
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        
-        JFileChooser selector = new JFileChooser();
+
+       /* JFileChooser selector = new JFileChooser();
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos XML", "xml");
-        
+
         selector.setFileFilter(filtro);
-        
+
         int seleccion = selector.showOpenDialog(this);
-        
-        if(seleccion == selector.APPROVE_OPTION){
+
+        if (seleccion == selector.APPROVE_OPTION) {
             File archivo = selector.getSelectedFile();
-            
+
             leerxml(archivo);
-        
-        }
+
+        }*/
     }//GEN-LAST:event_jButton5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -27,7 +27,7 @@ import java.io.PrintWriter;
  */
 public class NuevoUsuario extends javax.swing.JFrame {
     
-    public static LinkedList<Usuarios> usuarioxml = new LinkedList<>();
+    public static ArrayList<Usuarios> usuarioxml = ArchivoUsuario.leerxml();
 
     /**
      * Creates new form NuevoUsuario
@@ -41,46 +41,6 @@ public class NuevoUsuario extends javax.swing.JFrame {
         
     }
     
-    public void GuardarXML(){
-        FileWriter fw= null;
-        PrintWriter pw= null;
-        try {
-            
-            fw = new FileWriter("usuarios.xml");
-            pw = new PrintWriter(fw);
-            
-            pw.println("<usuarios>");
-            
-            for(Usuarios u : usuarioxml){
-                
-                pw.println("<usuario>");
-                
-                pw.println("<nombre>"+ u.getNombre()+"</nombre>");
-                pw.println("<nombreusuario>"+ u.getUsuario()+"</nombreusuario>");
-                pw.println("<rol>"+ u.getRol()+"</rol>");
-                pw.println("<password>"+ u.getPassword()+"</password>");
-                
-                pw.println("</usuario>");
-                
-            }
-            
-            pw.println("</usuarios>");
-            
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally{
-            try {
-                if(fw != null){
-                    fw.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -240,7 +200,7 @@ public class NuevoUsuario extends javax.swing.JFrame {
             u.setPassword(password);
             Proyectob.usuarios.add(u);
             usuarioxml.add(u);
-            GuardarXML();
+            ArchivoUsuario.GuardarXML(usuarioxml);
             
             ArchivoUsuario.guardarUsuarios(usuarios);
             JOptionPane.showMessageDialog(this, "Usuario creado exitosamente.");
@@ -285,7 +245,4 @@ public class NuevoUsuario extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 
-    private FileWriter FileWriter(String usuariosxml) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

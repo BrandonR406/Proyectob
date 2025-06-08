@@ -20,7 +20,7 @@ public class ConsultarVenta extends javax.swing.JFrame {
     public ConsultarVenta() {
         initComponents();
         ArchivoVenta.CargarVenta();
-        ArchivoLibroVenta.CargarCupon();
+        ArchivoLibroVenta.CargarLibroVenta();
         pintarTabla();
         //LibrosVendios();
         
